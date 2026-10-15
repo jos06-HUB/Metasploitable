@@ -26,9 +26,11 @@ rapport/
     ├── vsftpd/
     │   ├── images.md            # consignes de capture — voir REGLES_IMAGES.md
     │   ├── 01-recon-nmap.png
-    │   ├── 02-searchsploit.png
-    │   ├── 03-exploit-msfconsole.png
-    │   └── 04-session-root.png
+    │   ├── 02-recherche-module.png
+    │   ├── 03-info-cve.png
+    │   ├── 04-exploit-config.png
+    │   ├── 05-exploit-launch.png
+    │   └── 06-session-root.png
     ├── distcc/
     └── ...
 ```

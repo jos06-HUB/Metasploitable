@@ -22,13 +22,25 @@ règle est simple et s'applique à n'importe quel service :
   *cette* capture précise (`recon-nmap`, `searchsploit`, `diagnostic-acl`,
   `exploit-msfconsole`, `session-root`...) — pas une case à cocher dans une liste prédéfinie.
 
-Exemple réel (`vsftpd.html`, 4 captures) :
+Exemple réel (`vsftpd.html`, 6 captures) :
 ```
 01-recon-nmap.png
-02-searchsploit.png
-03-exploit-msfconsole.png
-04-session-root.png
+02-recherche-module.png
+03-info-cve.png
+04-exploit-config.png
+05-exploit-launch.png
+06-session-root.png
 ```
+
+Remarque sur cet exemple : chaque commande qui produit une information citée dans le texte a
+sa trace visuelle — mais deux commandes très proches (`searchsploit` et `search vsftpd` dans
+`msfconsole`, toutes deux de courtes recherches de confirmation) sont regroupées dans **une
+seule** capture (`02-recherche-module`) plutôt que dupliquées en deux figures quasi
+identiques. À l'inverse, l'exploitation (`exploit -z`) reste séparée en deux captures
+distinctes (`04-exploit-config` pour la configuration des options, `05-exploit-launch` pour
+le déclenchement et son résultat), parce que ce sont deux moments réellement différents de la
+démarche. Règle de fond : regrouper ce qui se ressemble, séparer ce qui est distinct — pas de
+figure par réflexe pour chaque commande.
 
 Un service avec une étape de diagnostic en plus (ex. `distcc`) aurait simplement une capture
 de plus, insérée à sa place chronologique, et toutes les suivantes renumérotées en
@@ -67,8 +79,13 @@ searchsploit vsftpd 2.3.4
 Encadrer en rouge : aucun (résultat déjà court et lisible en entier)
 ```
 
-- La commande listée ici doit être **identique** à celle qui apparaît dans le write-up
-  source (`ms*/<prénom>/<service>.md`) — pas une approximation.
+- **Le write-up source peut rester en bloc** (ex. un resource script `cat > fichier.rc <<
+  EOF ... EOF` lancé avec `msfconsole -q -r`) — c'est volontaire, ça permet de rejouer vite
+  et de vérifier si la faille est toujours exploitable sans réfléchir à la présentation.
+  **Les captures, elles, montrent la manipulation en interactif**, commande par commande
+  (`use ...`, `set RHOSTS ...`, `set RPORT ...`, `exploit -z`...) comme le ferait un humain
+  au clavier — plus clair à suivre pour le lecteur du rapport. Les deux formes doivent
+  produire le **même résultat final**, mais pas être écrites à l'identique.
 - "Encadrer en rouge" sert uniquement quand le résultat pertinent est noyé dans une sortie
   plus longue (ex. une ligne au milieu d'un scan nmap complet, un `uid=0` au milieu d'une
   sortie `id` plus verbeuse). Si toute la sortie capturée est déjà courte et pertinente,
@@ -79,7 +96,7 @@ Encadrer en rouge : aucun (résultat déjà court et lisible en entier)
 
 ## 3. Exemple de référence
 
-Dossier complet à dupliquer comme modèle : [`images/vsftpd/`](images/vsftpd/) (4 captures +
+Dossier complet à dupliquer comme modèle : [`images/vsftpd/`](images/vsftpd/) (6 captures +
 son `images.md`).
 
 ## 4. Ce qu'on évite
