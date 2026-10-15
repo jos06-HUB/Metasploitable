@@ -56,6 +56,46 @@
       <span class="badge badge-vm1">MS1 · port 80</span>
       <div class="meta-line">Résultat : reverse shell www-data (contournement de 2 filtres)</div>
     </li>
+    <li>
+      <a href="services/twiki.html">TWiki 20030201 — RCE search.cgi (CVE-2004-1037)</a>
+      <span class="badge badge-vm1">MS1 · port 80</span>
+      <div class="meta-line">Résultat : shell www-data (confirmation par délai, puis Metasploit)</div>
+    </li>
+    <li>
+      <a href="services/samba-enum.html">Samba 3.0.20 — Énumération sans authentification</a>
+      <span class="badge badge-vm1">MS1 · ports 139/445</span>
+      <div class="meta-line">Résultat : 35 comptes + 2 partages, sans identifiants</div>
+    </li>
+    <li>
+      <a href="services/samba-exploit.html">Samba — username map script RCE (CVE-2007-2447)</a>
+      <span class="badge badge-vm1">MS1 · port 445</span>
+      <div class="meta-line">Résultat : accès root complet (premier root sur MS1)</div>
+    </li>
+    <li>
+      <a href="services/netbios.html">NetBIOS Name Service</a>
+      <span class="badge badge-vm1">MS1 · port 137/udp</span>
+      <div class="meta-line">Résultat : nom de machine et domaine, sans toucher SMB</div>
+    </li>
+    <li>
+      <a href="services/mysql.html">MySQL 5.0.51a — Identifiants par défaut + privilège FILE</a>
+      <span class="badge badge-vm1">MS1 · port 3306</span>
+      <div class="meta-line">Résultat : root base + lecture/écriture arbitraire de fichiers</div>
+    </li>
+    <li>
+      <a href="services/postgresql.html">PostgreSQL 8.3.1 — RCE via UDF compilée (CVE-2007-3280)</a>
+      <span class="badge badge-vm1">MS1 · port 5432</span>
+      <div class="meta-line">Résultat : shell postgres (2 tentatives manuelles réfutées avant)</div>
+    </li>
+    <li>
+      <a href="services/ajp13.html">AJP13 — Lecture de fichiers via connecteur Tomcat</a>
+      <span class="badge badge-vm1">MS1 · port 8009</span>
+      <div class="meta-line">Résultat : lecture arbitraire de fichiers (hors plage CVE officielle)</div>
+    </li>
+    <li>
+      <a href="services/smtp.html">SMTP Postfix — Énumération d'utilisateurs (VRFY)</a>
+      <span class="badge badge-vm1">MS1 · port 25</span>
+      <div class="meta-line">Résultat : 35 comptes confirmés, recoupement avec Samba</div>
+    </li>
     <!-- Ajouter une entrée par nouveau service traité, dans l'ordre chronologique -->
   </ul>
 
