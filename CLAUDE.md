@@ -24,6 +24,16 @@ par service : [`ms3/parcours.md`](ms3/parcours.md) pour Metasploitable 3,
 [`ms2/parcours.md`](ms2/parcours.md) pour Metasploitable 2 (services ciblés, méthodologie,
 ordre de progression).
 
+## Feuille de route du dépôt (ordre de lecture)
+
+1. **`CLAUDE.md`** (ce fichier) — contexte général, cibles, scope autorisé
+2. **[`regle_writup.md`](regle_writup.md)** — règles pour rédiger un write-up d'exploitation
+   (`ms1/<prénom>/`, `ms2/<prénom>/`, `ms3/<prénom>/`) exploitable comme source du rapport
+3. **[`rapport/REGLES.md`](rapport/REGLES.md)** — règles pour construire le rapport HTML à
+   partir des write-ups (structure des pages, style)
+4. **[`rapport/REGLES_IMAGES.md`](rapport/REGLES_IMAGES.md)** — règles pour nommer et
+   documenter les captures d'écran du rapport (fichier `images.md` par service)
+
 ## Ce que Claude peut faire ici sans reposer la question
 
 Dans le cadre de ce projet spécifiquement, il est normal et attendu de :

