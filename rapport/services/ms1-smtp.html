@@ -47,12 +47,12 @@ $ nmap --script smtp-enum-users -p 25 192.168.56.102
   (<code>VRFY</code>).</p>
 
   <figure class="capture" id="cap-recon">
-    <img src="../images/smtp/01-recon-nmap.png" alt="Scan nmap et échec de smtp-enum-users (méthode RCPT)">
+    <img src="../images/ms1-smtp/01-recon-nmap.png" alt="Scan nmap et échec de smtp-enum-users (méthode RCPT)">
     <figcaption>
       <strong class="idx">1.</strong>
       <span class="desc"><code>smtp-commands</code> annonce <code>VRFY</code> ; le script
       automatisé (méthode <code>RCPT</code>) échoue.</span>
-      <span class="fname">images/smtp/01-recon-nmap.png</span>
+      <span class="fname">images/ms1-smtp/01-recon-nmap.png</span>
     </figcaption>
   </figure>
 
@@ -71,12 +71,12 @@ $ printf 'VRFY nonexistentuser123\r\nQUIT\r\n' | nc -w3 192.168.56.102 25
   supporté (<code>502</code>), cohérent avec <code>smtp-commands</code>.</p>
 
   <figure class="capture" id="cap-vrfy">
-    <img src="../images/smtp/02-vrfy-manuel.png" alt="VRFY sur compte valide (252) vs inventé (550)">
+    <img src="../images/ms1-smtp/02-vrfy-manuel.png" alt="VRFY sur compte valide (252) vs inventé (550)">
     <figcaption>
       <strong class="idx">2.</strong>
       <span class="desc"><code>252 2.0.0 root</code> (valide) contre
       <code>550 ... User unknown</code> (inventé) — l'oracle d'énumération.</span>
-      <span class="fname">images/smtp/02-vrfy-manuel.png</span>
+      <span class="fname">images/ms1-smtp/02-vrfy-manuel.png</span>
     </figcaption>
   </figure>
 
@@ -99,13 +99,13 @@ echo "Comptes confirmés valides : 35 / 35"</pre>
   utilisant un vrai tableau zsh (<code>USERS=(...)</code> + <code>"${USERS[@]}"</code>).</p>
 
   <figure class="capture" id="cap-lot">
-    <img src="../images/smtp/03-enum-lot.png" alt="Énumération en lot des 35 comptes, résultat 35/35">
+    <img src="../images/ms1-smtp/03-enum-lot.png" alt="Énumération en lot des 35 comptes, résultat 35/35">
     <figcaption>
       <strong class="idx">3.</strong>
       <span class="desc">Les <strong>35 comptes</strong> identifiés via Samba sont tous
       confirmés comme destinataires SMTP valides — recoupement complet entre deux services
       indépendants.</span>
-      <span class="fname">images/smtp/03-enum-lot.png</span>
+      <span class="fname">images/ms1-smtp/03-enum-lot.png</span>
     </figcaption>
   </figure>
 

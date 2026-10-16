@@ -35,12 +35,12 @@
 3306/tcp open  mysql   MySQL 5.0.51a-3ubuntu5</pre>
 
   <figure class="capture" id="cap-recon">
-    <img src="../images/mysql/01-recon-nmap.png" alt="Scan nmap du port 3306">
+    <img src="../images/ms1-mysql/01-recon-nmap.png" alt="Scan nmap du port 3306">
     <figcaption>
       <strong class="idx">1.</strong>
       <span class="desc">Résultat de <code>nmap -sC -sV -p 3306 192.168.56.102</code> :
       <strong>MySQL 5.0.51a-3ubuntu5</strong>, version très ancienne.</span>
-      <span class="fname">images/mysql/01-recon-nmap.png</span>
+      <span class="fname">images/ms1-mysql/01-recon-nmap.png</span>
     </figcaption>
   </figure>
 
@@ -65,12 +65,12 @@ root@%</pre>
   (<code>root@%</code> = connexion depuis n'importe quelle IP acceptée).</p>
 
   <figure class="capture" id="cap-auth">
-    <img src="../images/mysql/02-auth-root.png" alt="Échec TLS puis authentification root réussie">
+    <img src="../images/ms1-mysql/02-auth-root.png" alt="Échec TLS puis authentification root réussie">
     <figcaption>
       <strong class="idx">2.</strong>
       <span class="desc">Échec TLS du client moderne, puis authentification réussie avec
       <code>--skip-ssl</code> : <code>root@%</code>.</span>
-      <span class="fname">images/mysql/02-auth-root.png</span>
+      <span class="fname">images/ms1-mysql/02-auth-root.png</span>
     </figcaption>
   </figure>
 
@@ -89,12 +89,12 @@ user	File_priv
 root	Y</pre>
 
   <figure class="capture" id="cap-privs">
-    <img src="../images/mysql/03-privileges.png" alt="Privilèges root et File_priv">
+    <img src="../images/ms1-mysql/03-privileges.png" alt="Privilèges root et File_priv">
     <figcaption>
       <strong class="idx">3.</strong>
       <span class="desc"><code>GRANT ALL PRIVILEGES ... WITH GRANT OPTION</code> et
       <code>File_priv = Y</code> — accès root et privilège de fichier confirmés.</span>
-      <span class="fname">images/mysql/03-privileges.png</span>
+      <span class="fname">images/ms1-mysql/03-privileges.png</span>
     </figcaption>
   </figure>
 
@@ -113,12 +113,12 @@ service:x:1002:1002:,,,:/home/service:/bin/bash</pre>
   <a href="samba-enum.html">samba-enum.html</a>) — recoupement entre deux services distincts.</p>
 
   <figure class="capture" id="cap-loadfile">
-    <img src="../images/mysql/04-load-file.png" alt="Lecture de /etc/passwd via LOAD_FILE">
+    <img src="../images/ms1-mysql/04-load-file.png" alt="Lecture de /etc/passwd via LOAD_FILE">
     <figcaption>
       <strong class="idx">4.</strong>
       <span class="desc">Extrait de <code>/etc/passwd</code> : comptes <code>msfadmin</code>,
       <code>user</code>, <code>service</code> confirmés.</span>
-      <span class="fname">images/mysql/04-load-file.png</span>
+      <span class="fname">images/ms1-mysql/04-load-file.png</span>
     </figcaption>
   </figure>
 
@@ -138,13 +138,13 @@ test_mysql_file_priv</pre>
   cette technique aboutirait à un webshell et donc une RCE complète.</p>
 
   <figure class="capture" id="cap-write">
-    <img src="../images/mysql/05-write-attempt.png" alt="Tentative d'écriture webshell échouée puis confirmation du mécanisme">
+    <img src="../images/ms1-mysql/05-write-attempt.png" alt="Tentative d'écriture webshell échouée puis confirmation du mécanisme">
     <figcaption>
       <strong class="idx">5.</strong>
       <span class="desc"><code>Errcode: 13</code> sur le webroot, puis écriture réussie dans
       <code>/tmp</code> — le privilège <code>FILE</code> fonctionne, limité ici par les
       permissions du système de fichiers.</span>
-      <span class="fname">images/mysql/05-write-attempt.png</span>
+      <span class="fname">images/ms1-mysql/05-write-attempt.png</span>
     </figcaption>
   </figure>
 

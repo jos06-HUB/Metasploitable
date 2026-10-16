@@ -41,11 +41,11 @@
   un serveur web frontal et Tomcat.</p>
 
   <figure class="capture" id="cap-recon">
-    <img src="../images/ajp13/01-recon-nmap.png" alt="Scan nmap du port 8009">
+    <img src="../images/ms1-ajp13/01-recon-nmap.png" alt="Scan nmap du port 8009">
     <figcaption>
       <strong class="idx">1.</strong>
       <span class="desc"><code>8009/tcp open ajp13 Apache Jserv (Protocol v1.3)</code>.</span>
-      <span class="fname">images/ajp13/01-recon-nmap.png</span>
+      <span class="fname">images/ms1-ajp13/01-recon-nmap.png</span>
     </figcaption>
   </figure>
 
@@ -66,12 +66,12 @@ References:
   devrait pas s'appliquer.</p>
 
   <figure class="capture" id="cap-range">
-    <img src="../images/ajp13/02-verif-cve-range.png" alt="Plage de versions officielle Ghostcat">
+    <img src="../images/ms1-ajp13/02-verif-cve-range.png" alt="Plage de versions officielle Ghostcat">
     <figcaption>
       <strong class="idx">2.</strong>
       <span class="desc">Plage officielle de CVE-2020-1938 : Tomcat 7.0 à 9.0.30 — la cible en
       5.5 est en dehors, contraste volontaire.</span>
-      <span class="fname">images/ajp13/02-verif-cve-range.png</span>
+      <span class="fname">images/ms1-ajp13/02-verif-cve-range.png</span>
     </figcaption>
   </figure>
 
@@ -98,12 +98,12 @@ References:
   </blockquote>
 
   <figure class="capture" id="cap-webxml">
-    <img src="../images/ajp13/03-ghostcat-webxml.png" alt="Lecture de WEB-INF/web.xml via AJP">
+    <img src="../images/ms1-ajp13/03-ghostcat-webxml.png" alt="Lecture de WEB-INF/web.xml via AJP">
     <figcaption>
       <strong class="idx">3.</strong>
       <span class="desc">Contenu XML de <code>WEB-INF/web.xml</code> récupéré malgré la
       version — fichier sauvegardé dans le loot Metasploit.</span>
-      <span class="fname">images/ajp13/03-ghostcat-webxml.png</span>
+      <span class="fname">images/ms1-ajp13/03-ghostcat-webxml.png</span>
     </figcaption>
   </figure>
 
@@ -122,13 +122,13 @@ service:x:1002:1002:,,,:/home/service:/bin/bash</pre>
   arbitraire de fichiers système, pas limitée au webapp.</p>
 
   <figure class="capture" id="cap-passwd">
-    <img src="../images/ajp13/04-ghostcat-etc-passwd.png" alt="Lecture de /etc/passwd via traversée de chemin AJP">
+    <img src="../images/ms1-ajp13/04-ghostcat-etc-passwd.png" alt="Lecture de /etc/passwd via traversée de chemin AJP">
     <figcaption>
       <strong class="idx">4.</strong>
       <span class="desc">Comptes <code>msfadmin</code>, <code>user</code>, <code>service</code>
       lus dans <code>/etc/passwd</code> via traversée de chemin — résultat le plus fort de
       cette étape.</span>
-      <span class="fname">images/ajp13/04-ghostcat-etc-passwd.png</span>
+      <span class="fname">images/ms1-ajp13/04-ghostcat-etc-passwd.png</span>
     </figcaption>
   </figure>
 

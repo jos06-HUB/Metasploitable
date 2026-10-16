@@ -50,13 +50,13 @@ smb-security-mode:
   <code>guest</code> tout seul — premier signal que l'accès anonyme est permis.</p>
 
   <figure class="capture" id="cap-recon">
-    <img src="../images/samba-enum/01-recon-nmap.png" alt="Scan nmap des ports 139/445">
+    <img src="../images/ms1-samba-enum/01-recon-nmap.png" alt="Scan nmap des ports 139/445">
     <figcaption>
       <strong class="idx">1.</strong>
       <span class="desc">Version Samba identifiée (<code>3.0.20-Debian</code>) et
       <code>account_used: guest</code> — l'accès anonyme fonctionne déjà au niveau du script
       de détection.</span>
-      <span class="fname">images/samba-enum/01-recon-nmap.png</span>
+      <span class="fname">images/ms1-samba-enum/01-recon-nmap.png</span>
     </figcaption>
   </figure>
 
@@ -80,12 +80,12 @@ Anonymous login successful
   exposés : <code>tmp</code> et <code>opt</code>.</p>
 
   <figure class="capture" id="cap-shares">
-    <img src="../images/samba-enum/02-smbclient-shares.png" alt="Liste des partages SMB en anonyme">
+    <img src="../images/ms1-samba-enum/02-smbclient-shares.png" alt="Liste des partages SMB en anonyme">
     <figcaption>
       <strong class="idx">2.</strong>
       <span class="desc"><code>Anonymous login successful</code> et liste des partages
       (<code>tmp</code>, <code>opt</code>) récupérés sans identifiants.</span>
-      <span class="fname">images/samba-enum/02-smbclient-shares.png</span>
+      <span class="fname">images/ms1-samba-enum/02-smbclient-shares.png</span>
     </figcaption>
   </figure>
 
@@ -115,13 +115,13 @@ user:[postgres] rid:[0x4c0]
   <code>parcours.md</code>).</p>
 
   <figure class="capture" id="cap-users">
-    <img src="../images/samba-enum/03-enum4linux-users.png" alt="Liste des utilisateurs via RID cycling enum4linux">
+    <img src="../images/ms1-samba-enum/03-enum4linux-users.png" alt="Liste des utilisateurs via RID cycling enum4linux">
     <figcaption>
       <strong class="idx">3.</strong>
       <span class="desc">Extrait de la section <em>Users on ... via RID cycling</em> :
       <code>root</code>, <code>msfadmin</code> et les autres comptes récupérés sans
       authentification.</span>
-      <span class="fname">images/samba-enum/03-enum4linux-users.png</span>
+      <span class="fname">images/ms1-samba-enum/03-enum4linux-users.png</span>
     </figcaption>
   </figure>
 
