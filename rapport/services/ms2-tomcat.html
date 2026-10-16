@@ -111,16 +111,6 @@ msf6 exploit(multi/http/tomcat_mgr_deploy) > set LPORT 4447</pre>
   <code>java/shell_reverse_tcp</code> car le shell s'exécute dans la JVM de Tomcat ;
   <code>LHOST</code>/<code>LPORT</code> pour la connexion retour.</p>
 
-  <figure class="capture" id="cap-config">
-    <img src="../images/ms2-tomcat/04-exploit-config.png" alt="Configuration du module avant lancement">
-    <figcaption>
-      <strong class="idx">4.</strong>
-      <span class="desc">Chargement du module et configuration des options (cible, identifiants
-      du Manager, payload Java, LHOST/LPORT).</span>
-      <span class="fname">images/ms2-tomcat/04-exploit-config.png</span>
-    </figcaption>
-  </figure>
-
   <h2 class="section">5. Preuve d'accès obtenu</h2>
   <p><code>run -z</code> déploie le WAR malveillant, l'exécute, ouvre la session, puis retire
   l'application (<code>Undeploying</code>) ; <code>sessions -c "..." -i 1</code> exécute les
@@ -143,13 +133,13 @@ tomcat55</pre>
   (<code>Undeploying</code>) qui retire l'application malveillante après ouverture du shell.</p>
 
   <figure class="capture" id="cap-preuve">
-    <img src="../images/ms2-tomcat/05-session-tomcat55.png" alt="Shell tomcat55 confirmé, uid=110">
+    <img src="../images/ms2-tomcat/04-session-tomcat55.png" alt="Shell tomcat55 confirmé, uid=110">
     <figcaption>
-      <strong class="idx">5.</strong>
+      <strong class="idx">4.</strong>
       <span class="desc">Déploiement du WAR, ouverture de session, puis sortie de
       <code>id; uname -a; hostname; whoami</code> : accès confirmé en
       <code>uid=110(tomcat55)</code>.</span>
-      <span class="fname">images/ms2-tomcat/05-session-tomcat55.png</span>
+      <span class="fname">images/ms2-tomcat/04-session-tomcat55.png</span>
     </figcaption>
   </figure>
 
