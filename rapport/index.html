@@ -102,11 +102,6 @@
       <div class="meta-line">Résultat : accès root (shell de commande, payload perl)</div>
     </li>
     <li>
-      <span class="svc-reserve">rpcbind — Énumération RPC</span>
-      <span class="badge badge-vm2">MS2 · port 111</span>
-      <div class="meta-line">🚧 Réservé josa — write-up à venir</div>
-    </li>
-    <li>
       <a href="services/ms2-distcc.html">distccd — Exécution de commande (CVE-2004-2687)</a>
       <span class="badge badge-vm2">MS2 · port 3632</span>
       <div class="meta-line">Résultat : shell daemon (uid=1, accès système)</div>
@@ -117,9 +112,9 @@
       <div class="meta-line">Résultat : accès root (sans identifiant valide)</div>
     </li>
     <li>
-      <span class="svc-reserve">NFS root export — no_root_squash</span>
+      <a href="services/ms2-nfs.html">NFS — export racine en no_root_squash</a>
       <span class="badge badge-vm2">MS2 · port 2049</span>
-      <div class="meta-line">🚧 Réservé josa — write-up à venir</div>
+      <div class="meta-line">Résultat : accès root au filesystem cible (lecture /etc/shadow)</div>
     </li>
     <li>
       <a href="services/ms2-mysql.html">MySQL 5.0.51a — root sans mot de passe + privilège FILE</a>
